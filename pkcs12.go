@@ -37,9 +37,10 @@ var (
 	oidDataContentType          = asn1.ObjectIdentifier([]int{1, 2, 840, 113549, 1, 7, 1})
 	oidEncryptedDataContentType = asn1.ObjectIdentifier([]int{1, 2, 840, 113549, 1, 7, 6})
 
-	oidFriendlyName     = asn1.ObjectIdentifier([]int{1, 2, 840, 113549, 1, 9, 20})
-	oidLocalKeyID       = asn1.ObjectIdentifier([]int{1, 2, 840, 113549, 1, 9, 21})
-	oidMicrosoftCSPName = asn1.ObjectIdentifier([]int{1, 3, 6, 1, 4, 1, 311, 17, 1})
+	oidFriendlyName      = asn1.ObjectIdentifier([]int{1, 2, 840, 113549, 1, 9, 20})
+	oidLocalKeyID        = asn1.ObjectIdentifier([]int{1, 2, 840, 113549, 1, 9, 21})
+	oidMicrosoftCSPName1 = asn1.ObjectIdentifier([]int{1, 3, 6, 1, 4, 1, 311, 17, 1})
+	oidMicrosoftCSPName2 = asn1.ObjectIdentifier([]int{1, 3, 6, 1, 4, 1, 311, 17, 3, 76})
 )
 
 type pfxPdu struct {
@@ -203,7 +204,7 @@ func convertAttribute(attribute *pkcs12Attribute) (key, value string, err error)
 		isString = true
 	case attribute.Id.Equal(oidLocalKeyID):
 		key = "localKeyId"
-	case attribute.Id.Equal(oidMicrosoftCSPName):
+	case attribute.Id.Equal(oidMicrosoftCSPName1), attribute.Id.Equal(oidMicrosoftCSPName2):
 		// This key is chosen to match OpenSSL.
 		key = "Microsoft CSP Name"
 		isString = true
